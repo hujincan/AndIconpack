@@ -58,7 +58,7 @@ class RequestsAdapter(private val context: Context,
         val bean = dataList[p1]
 
         when (p0.itemViewType){
-            0 ->{
+            0, 2 ->{
                 val holder: RequestHolder = p0 as RequestHolder
                 Glide.with(context).load(bean.icon).into(holder.imgIcon)
                 holder.txtName.text = bean.name
@@ -69,6 +69,12 @@ class RequestsAdapter(private val context: Context,
                     holder.requestCard.setOnClickListener {
                         checkRead[p1-1] = !p0.chkSelected.isChecked
                         holder.chkSelected.isChecked = !holder.chkSelected.isChecked
+                    }
+
+                    if (bean.type == 2) {
+                        holder.reqTag.background = context.getDrawable(R.drawable.req_tag)
+                    } else {
+                        holder.reqTag.background = context.getDrawable(android.R.color.transparent)
                     }
                 }
             }
@@ -108,12 +114,27 @@ class RequestsAdapter(private val context: Context,
         return checkRead
     }
 
+    fun deSelectAll() {
+        for (i in 0 until checkRead.size) {
+            checkRead[i] = false
+        }
+        notifyDataSetChanged()
+    }
+
+    fun deSelect(pos: Int) {
+        if (checkRead[pos]) {
+            checkRead[pos] = false
+        }
+        notifyItemChanged(pos)
+    }
+
     class RequestHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
         var imgIcon: ImageView = itemView.findViewById(R.id.imgIcon)
         var txtName: TextView = itemView.findViewById(R.id.txtName)
         var chkSelected: AppCompatCheckBox = itemView.findViewById(R.id.chkSelected)
         var requestCard:LinearLayout = itemView.findViewById(R.id.requestCard)
+        var reqTag: View = itemView.findViewById(R.id.view_tag)
 
     }
 

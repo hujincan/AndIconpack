@@ -1,39 +1,39 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
 	package
-		ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:11-53
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:11-53
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+		ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
 	android:versionCode
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:1:1-5:12
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
 application
-ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:3:5-20
+ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml:3:5-20
 uses-sdk
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		ADDED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\hawvu\Documents\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		ADDED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\hawvu\StudioProjects\AndIconpack\library\src\main\AndroidManifest.xml

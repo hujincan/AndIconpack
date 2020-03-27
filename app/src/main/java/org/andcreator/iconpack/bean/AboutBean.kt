@@ -5,4 +5,5 @@ data class AboutBean(val title: String,
                      val photo: Int,
                      val banner: Int,
                      val buttons: ArrayList<String>,
-                     val links: ArrayList<String>)
+                     val links: ArrayList<String>,
+                     val egg: String)

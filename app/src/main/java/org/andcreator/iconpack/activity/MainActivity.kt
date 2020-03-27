@@ -47,8 +47,12 @@ import com.bumptech.glide.request.target.Target
 import org.andcreator.iconpack.R
 import org.andcreator.iconpack.fragment.*
 import org.andcreator.iconpack.listener.AppBarStateChangeListener
+import org.andcreator.iconpack.util.ColorUtil
+import org.andcreator.iconpack.util.DisplayUtil
 
 import kotlinx.android.synthetic.main.activity_main.*
+import org.andcreator.iconpack.dialog.ChangesDialog
+import org.andcreator.iconpack.util.Utils
 import kotlinx.android.synthetic.main.search_box.*
 import org.andcreator.iconpack.bean.AdaptionBean
 import org.andcreator.iconpack.util.*
@@ -66,14 +70,16 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: SectionsPagerAdapter
+    private var fabStatus = 1
     private lateinit var requestsFragment: RequestFragment
     private lateinit var iconsFragment: IconsFragment
     private lateinit var homeFragment: HomeFragment
     private lateinit var applyFragment: ApplyFragment
     private lateinit var aboutFragment: AboutFragment
+    private lateinit var debugFragment: DebugFragment
     private val icons = ArrayList<Int>()
     private var tabTextColor = 0xffffff
-    private var fabStatus = 1
+    private lateinit var saveThread: Thread
 
     /**
      * 获取未授权的权限
@@ -89,6 +95,15 @@ class MainActivity : AppCompatActivity() {
      * 已适配列表
      */
     var adaptations: ArrayList<AdaptionBean> = ArrayList()
+    /**
+     * 旧的已适配列表
+     */
+    private var adaptationsOld: ArrayList<AdaptionBean> = ArrayList()
+
+    /**
+     * 旧的已适配列表
+     */
+    private var adaptationsNew: ArrayList<AdaptionBean> = ArrayList()
 
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler(){
@@ -130,6 +145,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         checkVersion()
         initView()
+        checkChangeLog()
 
     }
 
@@ -200,35 +216,50 @@ class MainActivity : AppCompatActivity() {
                     0 ->{
                         if (fabStatus!=1){
                             fabStatus = 1
-                            changeFabIcon(R.drawable.ic_search_white_24dp)
+                            changeFabIcon("default")
                         }
                         closeSearch()
                     }
                     1 ->{
                         if (fabStatus!=1){
                             fabStatus = 1
-                            changeFabIcon(R.drawable.ic_search_white_24dp)
+                            changeFabIcon("default")
                         }
                     }
 
                     2 ->{
                         fabStatus = 2
-                        changeFabIcon(R.drawable.ic_send_white_24dp)
+                        changeFabIcon("send")
+                        requestsFragment = adapter.getFragment(2) as RequestFragment
+                        requestsFragment.setCallbackListener(object : RequestFragment.Callbacks{
+                            override fun callback(position: Int) {
+                                when (position) {
+                                    0 -> hide(fabSend)
+                                    1 -> show(fabSend)
+                                    2 -> SnackbarUtil().SnackbarUtil(this@MainActivity, fabSend ,resources.getString(R.string.no_choose_app))
+                                }
+                            }
+                        })
                         closeSearch()
                     }
                     3 ->{
                         if (fabStatus!=1){
                             fabStatus = 1
-                            changeFabIcon(R.drawable.ic_search_white_24dp)
+                            changeFabIcon("default")
                         }
                         closeSearch()
                     }
                     4 ->{
                         if (fabStatus!=1){
                             fabStatus = 1
-                            changeFabIcon(R.drawable.ic_search_white_24dp)
+                            changeFabIcon("default")
                         }
                         closeSearch()
+                    }
+                    5 -> {
+                        fabStatus = 5
+                        changeFabIcon("debug")
+                        debugFragment = adapter.getFragment(5) as DebugFragment
                     }
                 }
             }
@@ -254,6 +285,13 @@ class MainActivity : AppCompatActivity() {
             }else {
                 pager.currentItem = 1
                 search()
+            }
+        }
+
+        fabDebug.setOnClickListener {
+            if (fabStatus==5) {
+                Utils.setDebug(false, this)
+                Toast.makeText(this, getString(R.string.debug_disabled), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -436,7 +474,7 @@ class MainActivity : AppCompatActivity() {
             .setPrimaryText("探索图标")
             .setSecondaryText("点击此处搜索图标或应用至启动器!")
             .setBackgroundColour(Color.argb(244, Color.red(accentColor), Color.green(accentColor), Color.blue(accentColor)))
-            .setPromptStateChangeListener { prompt, state ->
+            .setPromptStateChangeListener { _, state ->
                 if (state == MaterialTapTargetPrompt.STATE_DISMISSED){
                     updateContent()
                 }
@@ -542,6 +580,28 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             else ->{}
+        }
+    }
+
+    private fun checkChangeLog() {
+        val sharedPreferences = getSharedPreferences("history", Context.MODE_PRIVATE)
+        val lastVersion = sharedPreferences.getString("version", "")
+        val thisVersion = getVersionCode(baseContext)
+        if (thisVersion != lastVersion) {
+            ChangesDialog().show(supportFragmentManager, "dialog")
+            val editor = sharedPreferences.edit()
+            editor.putString("version", thisVersion)
+            editor.apply()
+        }
+    }
+
+    private fun getVersionCode(context: Context): String {
+        val packageManager = context.packageManager
+        val packageInfo = packageManager.getPackageInfo(context.packageName, 0)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageInfo.longVersionCode.toString()
+        } else {
+            packageInfo.versionCode.toString()
         }
     }
 
@@ -719,13 +779,54 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    private fun changeFabIcon(icon: Int){
-        val animator = ObjectAnimator.ofFloat(fabSend, "rotation", 0f, 360f)
-        animator.duration = 360
-        animator.interpolator = DecelerateInterpolator()
-        animator.start()
-
-        fabSend.setImageResource(icon)
+    private fun changeFabIcon(fabItem: String){
+        when (fabItem) {
+            "send" -> {
+                val animator = ObjectAnimator.ofFloat(fabSend, "rotation", -180f, 0f)
+                animator.duration = 360
+                animator.interpolator = DecelerateInterpolator()
+                animator.addListener(object : AnimatorListenerAdapter(){
+                    @SuppressLint("RestrictedApi")
+                    override fun onAnimationStart(animation: Animator?) {
+                        super.onAnimationStart(animation)
+                        fabSend.visibility = View.VISIBLE
+                        fabDebug.visibility = View.INVISIBLE
+//                        fab.visibility = View.INVISIBLE
+                    }
+                })
+                animator.start()
+            }
+            "debug" -> {
+                val animator = ObjectAnimator.ofFloat(fabDebug, "rotation", -180f, 0f)
+                animator.duration = 360
+                animator.interpolator = DecelerateInterpolator()
+                animator.addListener(object : AnimatorListenerAdapter(){
+                    @SuppressLint("RestrictedApi")
+                    override fun onAnimationStart(animation: Animator?) {
+                        super.onAnimationStart(animation)
+                        fabSend.visibility = View.INVISIBLE
+//                        fab.visibility = View.INVISIBLE
+                        fabDebug.visibility = View.VISIBLE
+                    }
+                })
+                animator.start()
+            }
+            else -> {
+                val animator = ObjectAnimator.ofFloat(fabSend, "rotation", -180f, 0f)
+                animator.duration = 360
+                animator.interpolator = DecelerateInterpolator()
+                animator.addListener(object : AnimatorListenerAdapter(){
+                    @SuppressLint("RestrictedApi")
+                    override fun onAnimationStart(animation: Animator?) {
+                        super.onAnimationStart(animation)
+                        fabSend.visibility = View.INVISIBLE
+                        fabDebug.visibility = View.INVISIBLE
+//                        fab.visibility = View.VISIBLE
+                    }
+                })
+                animator.start()
+            }
+        }
     }
 
     private fun loadIcons(){

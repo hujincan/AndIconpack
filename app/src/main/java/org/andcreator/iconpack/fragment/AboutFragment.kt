@@ -61,13 +61,23 @@ class AboutFragment : BaseFragment() {
     private fun loadData(){
         credits.clear()
         credits.add(AboutBean(resources.getString(R.string.designer_name),resources.getString(R.string.designer_message),
-            R.drawable.author_create,R.drawable.logo_background,
-            arrayListOf("Google+","Dribbble","Coolapk"),
-            arrayListOf("http://bubbble.org","http://bubbble.org","http://bubbble.org")))
+            R.drawable.creator_cz,R.drawable.logo_background,
+            arrayListOf(getString(R.string.coolapk),getString(R.string.donate2)),
+            arrayListOf("http://www.coolapk.com/u/641294","https://qr.alipay.com/fkx09518hlbtwlyq9uzyx43"),
+            ""))
 
         credits.add(AboutBean("And",resources.getString(R.string.developer),
             R.drawable.author_and,R.drawable.material_background,
-            arrayListOf("Github","Dribbble","Coolapk"),
-            arrayListOf("https://github.com/hujincan","https://dribbble.com/hawvuking","http://www.coolapk.com/u/620606")))
+            arrayListOf("Github","Dribbble",getString(R.string.coolapk),getString(R.string.donate)),
+            arrayListOf("https://github.com/hujincan","https://dribbble.com/hawvuking","http://www.coolapk.com/u/620606",
+                "https://qr.alipay.com/tsx083367dghotyahi8lq2e"),
+            ""))
+
+        credits.add(AboutBean("aagu",resources.getString(R.string.maintainer),
+            R.drawable.maintainer_aagu,R.drawable.material_background2,
+            arrayListOf("Github",getString(R.string.coolapk),getString(R.string.donate)),
+            arrayListOf("https://github.com/aagu","http://www.coolapk.com/u/438081",
+                "https://qr.alipay.com/fkx09687pkp4vznm2prjk35"),
+            "debug"))
     }
 }

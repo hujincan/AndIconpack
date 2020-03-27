@@ -14,8 +14,10 @@ import org.andcreator.iconpack.view.SplitButtonsLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import jp.wasabeef.glide.transformations.BlurTransformation
+import org.andcreator.iconpack.util.Utils
 
 
 class AboutAdapter(private val context: Context,
@@ -69,6 +71,21 @@ class AboutAdapter(private val context: Context,
                 }
             }
         }
+        if (bean.egg.isNotEmpty()) {
+            if (bean.egg == "debug") {
+                p0.photo.setOnLongClickListener(object : View.OnLongClickListener {
+                    override fun onLongClick(p0: View?): Boolean {
+                        enableDebug()
+                        return false
+                    }
+                })
+            }
+        }
+    }
+    
+    private fun enableDebug() {
+        Utils.setDebug(true, context)
+        Toast.makeText(context, context.getString(R.string.debug_enabled), Toast.LENGTH_SHORT).show()
     }
 
     //打开链接
@@ -84,7 +101,6 @@ class AboutAdapter(private val context: Context,
         var title: TextView = itemView.findViewById(R.id.title)
         var content: TextView = itemView.findViewById(R.id.content)
         var buttons: SplitButtonsLayout = itemView.findViewById(R.id.buttons)
-
 
     }
 }

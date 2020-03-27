@@ -59,6 +59,8 @@
     <string name="adapter_not">未适配0个</string>
     <string name="adapter_number">适配0个</string>
 
+    <string name="maintainer">应用维护者</string>
+
     <string name="for_app_star">请为此应用评分</string>
     <string name="feel_good_a">如果觉得很棒，请给它5颗星</string>
     <string name="feel_good_b">您的评价很重要，点击下方跳转评分</string>
@@ -89,5 +91,20 @@
     </string>
     <string name="cm_dialog_content">%1$s 是CyanogenMod（based） Roms 的一部分，\n你想要将它下载到你的设备上吗？
     </string>
-
+    <string name="coolapk">酷安</string>
+    <string name="changelog_title">更新日志</string>
+    <string name="btn_ok">好的</string>
+    <string name="changelog_detail"><![CDATA[修复了一些图标没有自动应用的问题]]></string>
+    <string name="debug">调试</string>
+    <string name="debug_header">你已进入调试模式</string>
+    <string name="apk_info_copied">应用信息已复制到剪切版</string>
+    <string name="debug_enabled">调试模式开启，重启应用生效</string>
+    <string name="debug_disabled">调试模式关闭，重启应用生效</string>
+    <string name="donate">请TA喝水</string>
+    <string name="donate2">请TA喝奶</string>
+    <string name="save">保存</string>
+    <string name="agreement">协议</string>
+    <string name="agreement_detail">您可以下载本图标包中的图标，但不能用于商业用途，不能向其他人传播</string>
+    <string name="accept">接受</string>
+    <string name="deny">拒绝</string>
 </resources>

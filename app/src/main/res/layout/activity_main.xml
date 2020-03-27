@@ -150,4 +150,14 @@
         app:layout_anchor="@+id/pager"
         app:layout_anchorGravity="bottom|right"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDebug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bug_report_white_24dp"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@+id/pager"
+        app:layout_anchorGravity="bottom|right"
+        android:visibility="invisible"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

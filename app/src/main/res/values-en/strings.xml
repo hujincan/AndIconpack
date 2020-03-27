@@ -84,5 +84,23 @@
     <string name="cm_dialog_content">%1$s is part of CyanogenMod (based) roms.\nWould you like to
         install it on your device?
     </string>
+    <string name="developer_name">And</string>
+    <string name="maintainer">maintianer</string>
+    <string name="coolapk">coolapk</string>
+    <string name="changelog_title">changeLog</string>
+    <string name="btn_ok">OK</string>
+    <string name="changelog_detail"><![CDATA[fix: some icons were not applied]]></string>
 
+    <string name="debug">debug</string>
+    <string name="debug_header">you are now in debug mode</string>
+    <string name="apk_info_copied">apk info has been copied to clipboard</string>
+    <string name="debug_enabled">debug mode enabled, restart app to take effect</string>
+    <string name="debug_disabled">debug mode disabled, restart app to take effect</string>
+    <string name="donate">donate</string>
+    <string name="donate2">a bottle of milk -:)</string>
+    <string name="save">save</string>
+    <string name="agreement">agreement</string>
+    <string name="agreement_detail">You can save icons from this IconPack, but no for commercial use or spread to others</string>
+    <string name="accept">Accept</string>
+    <string name="deny">拒绝</string>
 </resources>

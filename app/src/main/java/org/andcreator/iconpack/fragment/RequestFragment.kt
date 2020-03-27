@@ -31,6 +31,8 @@ import org.jetbrains.anko.uiThread
 import org.andcreator.iconpack.adapter.RequestsAdapter
 import org.andcreator.iconpack.bean.RequestsBean
 import kotlinx.android.synthetic.main.fragment_request.*
+import org.andcreator.iconpack.util.DBHelper
+import org.jetbrains.anko.custom.async
 import kotlinx.android.synthetic.main.fragment_request.loading
 import org.andcreator.iconpack.bean.AdaptionBean
 import org.andcreator.iconpack.util.Utils
@@ -181,7 +183,7 @@ class RequestFragment : BaseFragment() {
                         myFiles.add(file)
                         for ((index,value) in adapter.getSelect().withIndex()){
                             if (value){
-                                saveIcon(appsList[index+1].icon!!, appsList[index+1].name?.toLowerCase()?.replace(" ", "_")!!)
+                                saveIcon(appsList[index+1].icon!!, appsList[index+1].pagName?.toLowerCase()?.replace(".", "_")!!)
 
                                 val msg = Message()
                                 msg.what = 1
@@ -253,12 +255,14 @@ class RequestFragment : BaseFragment() {
         intent.putExtra(Intent.EXTRA_TEXT, "") // 正文
         intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, "${activity!!.packageName}.provider", path))
         startActivity(Intent.createChooser(intent, "请选择邮件类应用"))
+        applied()
     }
 
     private fun loadData(){
         appsList.clear()
         message.clear()
         waysAdaptions = 0
+        val redPkg = DBHelper.getInstance(context!!).getRequested().map(RequestsBean::pagName)
         val pm = context!!.packageManager
         val mainIntent = Intent(Intent.ACTION_MAIN,null)
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -291,12 +295,16 @@ class RequestFragment : BaseFragment() {
                 activityName
             )
             // 创建一个AppInfo对象，并赋值
-            appsList.add(RequestsBean(icon,appLabel,pkgName,activityName,appsList.size,waysAdaptions, 0)) // 添加至列表中
+            if (!redPkg.contains(pkgName)) {
+                appsList.add(RequestsBean(0,icon,appLabel,pkgName,activityName,appsList.size,waysAdaptions, 0)) // 添加至列表中
+            } else {
+                appsList.add(RequestsBean(0,icon,appLabel,pkgName,activityName,appsList.size,waysAdaptions, 2)) // 添加至列表中
+            }
 
             checked.add(false)
         }
 
-        appsList.add(0, RequestsBean(null," ",null,null,appsList.size,waysAdaptions,1))
+        appsList.add(0, RequestsBean(0,null," ",null,null,appsList.size,waysAdaptions,1))
         Log.e("不可能是：",waysAdaptions.toString())
 
     }
@@ -325,6 +333,14 @@ class RequestFragment : BaseFragment() {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
+        }
+    }
+
+    fun applied() {
+        doAsync {
+            uiThread {
+                adapter.deSelectAll()
+            }
         }
     }
 
@@ -364,8 +380,13 @@ class RequestFragment : BaseFragment() {
             if (value){
                 boolean = true
                 message.append("<!-- ${appsList[index+1].name} -->\r\n")
-                message.append("<item component=\"ComponentInfo{${appsList[index+1].pagName}/${appsList[index+1].activityName}}\" drawable=\"${appsList[index+1].name?.toLowerCase()?.replace(" ", "_")}\" />")
+                message.append("<item component=\"ComponentInfo{${appsList[index+1].pagName}/${appsList[index+1].activityName}}\" drawable=\"${appsList[index+1].pagName?.toLowerCase()?.replace(".", "_")}\" />")
                 message.append("\r\n")
+                doAsync {
+                    val b = appsList[index+1]
+                    b.type = 2
+                    DBHelper.getInstance(context!!).insertOrUpdate(b)
+                }
             }
         }
 

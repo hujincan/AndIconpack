@@ -13,13 +13,8 @@
     android:gravity="center_vertical"
     tools:ignore="Overdraw">
 
-    <View
-        android:id="@+id/view_tag"
-        android:layout_width="6dp"
-        android:layout_height="48dp" />
-
     <ImageView
-        android:id="@+id/imgIcon"
+        android:id="@+id/debug_icon"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:maxHeight="64dp"
@@ -28,28 +23,28 @@
         tools:ignore="ContentDescription"/>
 
     <LinearLayout
+        android:id="@+id/debug_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtName"
-            android:layout_width="0dip"
+            android:id="@+id/debug_appName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:padding="8dp"
+            android:padding="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             tools:text="App Name And Some Other Texts Im testing right now"/>
 
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/chkSelected"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/debug_appInfo"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:padding="8dp"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="com.apk.name/com.apk.name.MainActivity"/>
 
     </LinearLayout>
 

@@ -51,7 +51,7 @@ And图标包模板是一个相对容易进行二次修改的项目，对于本�
 
 `drawable.xml`
 ```xml
-    <categor title="系统"/>
+    <category title="系统"/>
     <item drawable="ic_settings" name="设置" />
 ```
 
@@ -72,7 +72,7 @@ And图标包模板是一个相对容易进行二次修改的项目，对于本�
 这个文件是必须有的，尽管可能没有它也能使用，不过这个文件的主要目的是为了某些桌面可以自由替换某个app的图标，这个时候就会读取drawable.xml里的配置了。它的固定格式为：
 
 ```xml
-    <categor title="类别"/>
+    <category title="类别"/>
     <item drawable="图标文件名" name="APP名" />
     <item drawable="图标文件名" name="APP名" />
     <item drawable="图标文件名" name="APP名" />
@@ -82,7 +82,7 @@ And图标包模板是一个相对容易进行二次修改的项目，对于本�
 首先是一个`<categor title="类别"/>`，这是为了给图标分类，标题随意取，比如`系统`、`游戏`...这个标签写完后就可以在它的下方开始写`<item drawable="图标文件名" name="APP名" />`，`图标文件名`和appfilter一样的做法，`APP名`是对应APP的中文名，其实是可以不写的，但是如果你想写，它可以在模板app内部点击图标后展示name的值，否则默认展示图标文件名。如果不想写可以直接删掉`name="APP名"`，就像这样：
 
 ```xml
-    <categor title="类别"/>
+    <category title="类别"/>
     <item drawable="图标文件名" />
     <item drawable="图标文件名" />
     <item drawable="图标文件名" />

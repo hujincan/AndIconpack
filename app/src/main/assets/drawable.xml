@@ -46,10 +46,10 @@
     <item drawable="playconsole" name="Play console" />
     <item drawable="news" name="Google 新闻和天气" />
 
-    <categor title="社交"/>
+    <category title="社交"/>
     <item drawable="ic_settings" name="设置" />
 
-    <categor title="All"/>
+    <category title="All"/>
     <item drawable="cm_gallery" name="CM图库" />
     <item drawable="cm_music" name="CM 音乐" />
     <item drawable="moto_camera" name="Motorola 相机" />

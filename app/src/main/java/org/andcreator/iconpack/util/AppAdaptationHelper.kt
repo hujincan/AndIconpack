@@ -76,7 +76,7 @@ object AppAdaptationHelper {
     /**
      * 随机四个Icon在icons列表的位置
      */
-    private val randomNumber = Array(4) {0}
+    private var randomNumber = Array(4) {0}
 
     /**
      * 随机四个Icon在icons列表的位置
@@ -161,25 +161,7 @@ object AppAdaptationHelper {
 
     fun getRandomIcon(loadRandomIcon: (ArrayList<Int>) -> Unit): AppAdaptationHelper {
         if (icons.isNotEmpty() && randomIcon.isNotEmpty()) {
-            Log.e("newAdaption", "不为空")
             onUI {
-                randomIcon.clear()
-                var index = 0
-                while (index < 4) {
-                    val r = Random.nextInt(icons.size)%(icons.size + 1)
-                    var bo = true
-                    for (j in randomNumber) {
-                        if (j == r) {
-                            bo = false
-                            break
-                        }
-                    }
-                    if (bo && index < 4) {
-                        randomNumber[index] = r
-                        index++
-                        randomIcon.add(icons[r])
-                    }
-                }
                 loadRandomIcon.invoke(randomIcon)
             }
         } else {
@@ -432,6 +414,7 @@ object AppAdaptationHelper {
                     loadAdaptationIcon?.invoke(iconsList)
                 }
             }
+
             randomIcon.clear()
             var index = 0
             while (index < 4) {
@@ -447,6 +430,9 @@ object AppAdaptationHelper {
                 }
                 if (bo && index < 4) {
                     randomNumber[index] = r
+                    index++
+                    randomIcon.add(icons[r])
+                } else if (randomIcon.size >= icons.size - 1) {
                     index++
                     randomIcon.add(icons[r])
                 }

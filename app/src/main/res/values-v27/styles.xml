@@ -21,6 +21,7 @@
         <item name="android:windowReenterTransition">@transition/navigation_transition</item>
         <item name="android:windowReturnTransition">@transition/navigation_transition</item>
         <item name="android:windowEnterTransition">@transition/navigation_transition</item>
+        <item name="android:fontFamily">@font/google_sans_medium</item>
     </style>
 
     <style name="Trans" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -34,11 +35,12 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:textColor">@color/black_text</item>
-        <item name="android:textColorPrimary">@color/backgroundDark</item>
+        <item name="android:textColorPrimary">@color/black_text</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowEnterTransition">@transition/preview_transition</item>
+        <item name="android:fontFamily">@font/google_sans_medium</item>
     </style>
 
 </resources>

@@ -6,5 +6,6 @@ object Constans {
 
     val NAVIGATION_ITEM = 62F
 
-    val MAX_REQUEST_COUNT = 20
+    // 可一次性申请的图标数量
+    val MAX_REQUEST_COUNT = 999
 }

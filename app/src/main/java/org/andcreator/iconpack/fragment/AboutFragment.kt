@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -35,8 +36,6 @@ import kotlin.math.roundToInt
  */
 class AboutFragment : BaseFragment() {
 
-    private val buttonsText = arrayListOf(R.drawable.ic_github, R.drawable.ic_dribbble, R.drawable.ic_coolapk)
-    private val links = arrayListOf("https://github.com/hujincan", "https://dribbble.com/hawvuking", "http://www.coolapk.com/u/620606")
     var isDark = false
 
     private var progressInt = 0
@@ -55,6 +54,7 @@ class AboutFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        isDark = ContextCompat.getColor(requireContext(), R.color.backgroundColor) == ContextCompat.getColor(requireContext(), R.color.white)
         return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
@@ -65,9 +65,30 @@ class AboutFragment : BaseFragment() {
 
     private fun initView(){
 
-        reward.shrink()
+        if (resources.getString(R.string.alipay_code) != "false") {
 
-        AppAdaptationHelper.setContext(context!!).getAdaptionCount {
+            reward.shrink()
+            reward.setOnClickListener {
+                if (reward.isExtended) {
+                    if (startIntentUrl(INTENT_URL_FORMAT.replace("{payCode}", resources.getString(R.string.alipay_code)))) {
+                        Toast.makeText(requireContext(), "非常感谢您给予的动力支持!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        reward.shrink()
+                    }
+                } else {
+                    reward.extend()
+                }
+            }
+
+            root.setOnClickListener {
+                if (reward.isExtended) reward.shrink()
+            }
+        } else {
+            reward.visibility = View.GONE
+        }
+
+
+        AppAdaptationHelper.setContext(requireContext()).getAdaptionCount {
             adaptationCount.text = "$it"
             if (progressInt == 0) {
                 progressInt = it
@@ -75,7 +96,7 @@ class AboutFragment : BaseFragment() {
                 progress.max = progressInt
                 progress.progress = it
                 val spannableString = SpannableString("感谢支持本作品，适配率 ${(it.toFloat() / progressInt.toFloat() * 100F).roundToInt()}%")
-                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorAccent)), spannableString.indexOf("率") + 1, spannableString.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorAccent)), spannableString.indexOf("率") + 1, spannableString.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
                 percent.text = spannableString
             }
         }.getAppCount {
@@ -87,61 +108,55 @@ class AboutFragment : BaseFragment() {
                 progress.progress = progressInt
 
                 val spannableString = SpannableString("感谢支持本作品，适配率 ${(progressInt.toFloat() / it.toFloat() * 100F).roundToInt()}%")
-                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorAccent)), spannableString.indexOf("率") + 1, spannableString.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+                spannableString.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorAccent)), spannableString.indexOf("率") + 1, spannableString.length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
                 percent.text = spannableString
             }
         }
 
-        reward.setOnClickListener {
-            if (reward.isExtended) {
-                if (startIntentUrl(INTENT_URL_FORMAT.replace("{payCode}", resources.getString(R.string.alipay_code)))) {
-                    Toast.makeText(context!!, "非常感谢您给予的动力支持!", Toast.LENGTH_SHORT).show()
-                } else {
-                    reward.shrink()
-                }
-            } else {
-                reward.extend()
-            }
-        }
 
-        root.setOnClickListener {
-            if (reward.isExtended) reward.shrink()
-        }
+        if (resources.getString(R.string.banner_background) != "false") {
+            doAsyncTask {
 
-        doAsyncTask {
-
-            isDark = getBright(Bitmap.createScaledBitmap(drawableToBitmap(R.drawable.banner_background), 500, 300, false)) > 220
-            onUI {
+                isDark = getBright(Bitmap.createScaledBitmap(drawableToBitmap(resources.getIdentifier(resources.getString(R.string.banner_background),"drawable", this.requireContext().packageName)), 500, 300, false)) > 220
+                onUI {
 //                callbacks.callback(isDark)
-                if (isDark){
-                    title.setTextColor(ContextCompat.getColor(context!!, R.color.dark))
-                    content.setTextColor(ContextCompat.getColor(context!!, R.color.dark))
-                }else{
-                    title.setTextColor(ContextCompat.getColor(context!!, R.color.white))
-                    content.setTextColor(ContextCompat.getColor(context!!, R.color.white))
+                    if (isDark){
+                        title.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark))
+                        content.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark))
+                    }else{
+                        title.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                        content.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    }
                 }
             }
-        }
-
-        Glide.with(banner)
-            .load(R.drawable.banner_background)
+            Glide.with(banner)
+                .load(resources.getIdentifier(resources.getString(R.string.banner_background),"drawable", this.requireContext().packageName))
 //            .apply(bitmapTransform(BlurTransformation(25)))
-            .into(banner)
+                .into(banner)
+
+        } else {
+            if (isDark){
+                title.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark))
+                content.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark))
+            } else {
+                title.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                content.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            }
+        }
 
         Glide.with(photo).load(R.drawable.author_and).into(photo)
         content.text = resources.getString(R.string.designer_message)
 
-        if (buttonsText.size > 0){
-            buttons.setButtonCount(buttonsText.size)
+        val links = resources.getStringArray(R.array.author_links)
+        if (links.isNotEmpty()){
+            buttons.setButtonCount(links.size)
             if (!buttons.hasAllButtons()){
-                if (buttonsText.size != links.size){
-                    throw IllegalStateException(
-                        "Button names and button links must have the same number of items" + "."
+                for (value in links) {
+                    val values = value.split("$$")
+                    buttons.addButton(
+                        resources.getIdentifier(values[0],"drawable", this.requireContext().packageName),
+                        values[1]
                     )
-                }
-
-                for ((index, value) in buttonsText.withIndex()){
-                    buttons.addButton(value, links[index], context)
                 }
             }
         }else{
@@ -153,9 +168,7 @@ class AboutFragment : BaseFragment() {
                     if (v!!.tag is String) {
                         try {
                             startHttp(v.tag.toString())
-                        } catch (e: Exception) {
-                        }
-
+                        } catch (e: Exception) { }
                     }
                 }
             }
@@ -166,7 +179,7 @@ class AboutFragment : BaseFragment() {
     private fun startHttp(uri: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(uri)
-        context!!.startActivity(intent)
+        requireContext().startActivity(intent)
     }
 
     private fun getBright(bm: Bitmap): Int {
@@ -206,7 +219,7 @@ class AboutFragment : BaseFragment() {
 
     private fun startIntentUrl(intentFullUrl: String): Boolean {
 
-        if (hasInstalledAlipayClient(context!!)){
+        if (hasInstalledAlipayClient(requireContext())){
             return try {
                 val intent = Intent.parseUri(
                     intentFullUrl,

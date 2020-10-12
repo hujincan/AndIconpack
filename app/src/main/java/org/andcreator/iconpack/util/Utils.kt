@@ -44,7 +44,7 @@ object Utils {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             context.packageManager.getPackageInfo(context.packageName, 0).longVersionCode.toInt()
         } else {
-            context.packageManager.getPackageInfo(context.packageName, 0).versionCode
+            context.packageManager.getPackageInfo(context.packageName, 0).longVersionCode.toInt()
         }
     }
 
@@ -65,16 +65,6 @@ object Utils {
         val cmb = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val data = ClipData.newPlainText(context.getString(R.string.app_name), content.trim())
         cmb.setPrimaryClip(data)
-    }
-
-    fun Any.logger(tag: String = this.javaClass.simpleName): (String) -> Unit {
-        return {
-            Log.d("Andrew-$tag" , it)
-        }
-    }
-
-    fun Any.log(value: String) {
-        logger()(value)
     }
 
     val Any.objId: String

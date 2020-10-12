@@ -131,9 +131,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/colorAccent"
                     android:padding="14dp"
-                    android:src="@drawable/ic_dashboard_black_24dp"/>
+                    android:src="@drawable/ic_dashboard_black_24dp"
+                    app:tint="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/iconText"
@@ -172,9 +172,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/white"
                     android:padding="14dp"
-                    android:src="@drawable/ic_local_florist_black_24dp"/>
+                    android:src="@drawable/ic_local_florist_black_24dp"
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/newText"
@@ -290,7 +290,6 @@
             android:id="@+id/whatsAdaption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_outlined_category_24px"
             android:drawablePadding="8dp"
             android:textColor="@color/text_color"
             android:textSize="17sp"
@@ -299,7 +298,8 @@
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
             android:visibility="gone"
-            android:text="新适配设备上哪些图标"/>
+            android:text="新适配设备上哪些图标"
+            app:drawableStartCompat="@drawable/ic_outlined_category_24px" />
 
         <LinearLayout
             android:id="@+id/adaptWhatIconsLayout"
@@ -317,7 +317,7 @@
                 android:layout_height="58dp"
                 android:layout_weight="1"
                 android:id="@+id/adaptWhatIcons1"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:layout_margin="6dp"
                 android:scaleType="fitCenter"
                 android:clickable="true"
@@ -329,7 +329,7 @@
                 android:layout_height="58dp"
                 android:layout_weight="1"
                 android:id="@+id/adaptWhatIcons2"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:layout_margin="6dp"
                 android:scaleType="fitCenter"
                 android:clickable="true"
@@ -341,7 +341,7 @@
                 android:layout_height="58dp"
                 android:layout_weight="1"
                 android:id="@+id/adaptWhatIcons3"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:layout_margin="6dp"
                 android:scaleType="fitCenter"
                 android:clickable="true"
@@ -353,7 +353,7 @@
                 android:layout_height="58dp"
                 android:layout_weight="1"
                 android:id="@+id/adaptWhatIcons4"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:layout_margin="6dp"
                 android:scaleType="fitCenter"
                 android:clickable="true"
@@ -365,7 +365,7 @@
                 android:layout_height="58dp"
                 android:layout_weight="1"
                 android:id="@+id/adaptWhatIcons5"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?attr/selectableItemBackground"
                 android:layout_margin="6dp"
                 android:scaleType="fitCenter"
                 android:clickable="true"
@@ -374,7 +374,16 @@
 
         </LinearLayout>
 
-        <include layout="@layout/rate_layout" />
+        <LinearLayout
+            android:id="@+id/linksLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/top_line"/>
 
     </LinearLayout>
 

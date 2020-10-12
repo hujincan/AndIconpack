@@ -136,7 +136,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_local_cafe_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/launch/baseline_launch_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -146,8 +146,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_local_cafe_white_24dp" />
+                            <entry key="outputName" value="ic_baseline_launch_24" />
                             <entry key="sourceFile" value="C:\Users\hawvu\Documents\coolapk.svg" />
                           </map>
                         </option>

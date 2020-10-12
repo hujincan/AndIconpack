@@ -163,5 +163,15 @@
     <item component="ComponentInfo{com.twitter.android/com.twitter.android.StartActivity}" drawable="twitter" />
     <!-- QQ -->
     <item component="ComponentInfo{com.tencent.mobileqq/com.tencent.mobileqq.activity.SplashActivity}" drawable="qq" />
+    <!-- 哔哩哔哩 -->
+    <item component="ComponentInfo{tv.danmaku.bili/tv.danmaku.bili.ui.splash.SplashActivity}" drawable="bilibili" />
+    <!-- 飞猪旅行 -->
+    <item component="ComponentInfo{com.taobao.trip/com.alipay.mobile.quinox.LauncherActivity}" drawable="fly_pig" />
+    <!-- 高德地图 -->
+    <item component="ComponentInfo{com.autonavi.minimap/com.autonavi.map.activity.SplashActivity}" drawable="amap" />
+    <!-- Wear OS -->
+    <item component="ComponentInfo{com.google.android.wearable.app.cn/com.google.android.clockwork.companion.launcher.LauncherActivity}" drawable="wear_os" />
 
+
+    <!-- 修改完成后请复制到asset目录 -->
 </resources>

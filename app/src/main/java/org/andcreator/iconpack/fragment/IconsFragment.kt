@@ -5,7 +5,6 @@ package org.andcreator.iconpack.fragment
 import android.animation.ValueAnimator
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -14,7 +13,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
@@ -72,19 +70,16 @@ class IconsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.setPadding(0, Utils.getStatusBarHeight(context!!), 0, 0)
-        isDark = ContextCompat.getColor(context!!, R.color.backgroundColor) != ContextCompat.getColor(context!!, R.color.white)
-        iconColor = ContextCompat.getColor(context!!, R.color.backgroundColor)
+        view.setPadding(0, Utils.getStatusBarHeight(requireContext()), 0, 0)
+        isDark = ContextCompat.getColor(requireContext(), R.color.backgroundColor) != ContextCompat.getColor(requireContext(), R.color.white)
+        iconColor = ContextCompat.getColor(requireContext(), R.color.backgroundColor)
         initView()
     }
 
     private fun initView(){
-        actionSearch.setOnClickListener {
-            SnackbarUtil().SnackbarUtil(this.context!!, recyclerIcons, "白色")
-        }
 
         recyclerIcons.layoutManager = GridLayoutManager(context, 4)
-        adapter = IconsAdapter(context!!, iconsList)
+        adapter = IconsAdapter(requireContext(), iconsList)
         recyclerIcons.adapter = adapter
         recyclerIcons.addOnScrollListener(object : HideScrollListener() {})
 
@@ -187,7 +182,7 @@ class IconsFragment : BaseFragment() {
      * 是否是窗口模式(分屏)
      */
     private fun isStatusBarVisible():Boolean {
-        val isInMultiWindowMode = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && activity!!.isInMultiWindowMode
+        val isInMultiWindowMode = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && requireActivity().isInMultiWindowMode
         //窗口模式或者SDK小于19，不设置状态栏透明
         if (isInMultiWindowMode) {
             return false
@@ -203,7 +198,7 @@ class IconsFragment : BaseFragment() {
                     background.visibility = View.GONE
                 }
             }).exitAnimator()
-            setBackgroundColor(iconColor, ContextCompat.getColor(context!!, R.color.backgroundColor))
+            setBackgroundColor(iconColor, ContextCompat.getColor(requireContext(), R.color.backgroundColor))
 
             recyclerIcons.animate()
                 .setDuration(300L)
@@ -240,7 +235,7 @@ class IconsFragment : BaseFragment() {
 
     private fun closeKeyboard(){
         searchInput.clearFocus()
-        val `in` = context!!.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val `in` = requireContext().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
         `in`.hideSoftInputFromWindow(searchInput.windowToken, 0)
     }
 
@@ -267,7 +262,7 @@ class IconsFragment : BaseFragment() {
 
     private fun reloadIcons() {
         if (isDestroyed){
-            AppAdaptationHelper.setContext(context!!).getAdaptationIcon {
+            AppAdaptationHelper.setContext(requireContext()).getAdaptationIcon {
                 iconsList.clear()
                 iconsList.addAll(it)
                 if (loading.visibility == View.VISIBLE){

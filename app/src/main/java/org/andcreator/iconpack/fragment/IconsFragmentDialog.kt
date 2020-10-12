@@ -49,7 +49,7 @@ class IconsFragmentDialog private constructor():  DialogFragment() {
         title.text = titleText
 
         updateIconList.layoutManager = GridLayoutManager(context, 4)
-        val adapter = HomeIconsAdapter(context!!, iconList)
+        val adapter = HomeIconsAdapter(requireContext(), iconList)
         updateIconList.adapter = adapter
 
         adapter.setClickListener(object : HomeIconsAdapter.OnItemClickListener{
@@ -71,7 +71,7 @@ class IconsFragmentDialog private constructor():  DialogFragment() {
         val window = dialog!!.window
         val windowParams = window!!.attributes
         val displayMetrics = DisplayMetrics()
-        activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics) //为获取屏幕宽高
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics) //为获取屏幕宽高
         windowParams.width = kotlin.math.min(
             DisplayUtil.dip2px(context, 390f),
             (displayMetrics.widthPixels * 0.9).toInt()

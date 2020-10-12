@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Matrix
 import android.graphics.PointF
 import android.graphics.RectF
-import android.os.Handler
-import android.os.Message
 import android.util.Log
 import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_POINTER_DOWN
@@ -14,9 +12,6 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import org.andcreator.iconpack.util.Utils.log
-import java.lang.Math.abs
 
 /**
  * @author  yd
@@ -296,7 +291,7 @@ class UnboundedImageViewHelper private constructor(private val imageView: ImageV
                 }
                 val x = event.xById()
                 val y = event.yById()
-                log("x:$x y:$y")
+                logger("x:$x y:$y")
                 offset.x += x - downTouch.x
                 offset.y += y - downTouch.y
                 downTouch.set(x, y)
@@ -328,7 +323,7 @@ class UnboundedImageViewHelper private constructor(private val imageView: ImageV
                 pointerUp = true
                 recordPointF.set(0F, 0F)
                 offset.set(0F, 0F)
-                log("触摸点松开")
+                logger("触摸点松开")
 
             }
             MotionEvent.ACTION_CANCEL -> {
@@ -375,7 +370,7 @@ class UnboundedImageViewHelper private constructor(private val imageView: ImageV
         //中心点
         val focusX =  detector.focusX
         val focusY = detector.focusY
-        log("scaleFactor: $scaleFactor focusX: $focusX  focusY: $focusY")
+        logger("scaleFactor: $scaleFactor focusX: $focusX  focusY: $focusY")
 
         if (java.lang.Float.isNaN(scaleFactor) || java.lang.Float.isInfinite(scaleFactor)) return false
 

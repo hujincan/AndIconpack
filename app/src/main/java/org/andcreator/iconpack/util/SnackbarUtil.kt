@@ -7,13 +7,13 @@ import com.google.android.material.snackbar.Snackbar
 import org.andcreator.iconpack.R
 
 
-class SnackbarUtil {
+object SnackbarUtil {
 
-    fun SnackbarUtil(context: Context, views: View, content: String) {
+    fun snackbarUtil(context: Context, views: View, content: String) {
 
         val snackbar = Snackbar.make(views, content, Snackbar.LENGTH_SHORT)
-        val view = snackbar.view
-        view.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+        snackbar.setTextColor(ContextCompat.getColor(context, R.color.black_text))
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(context, R.color.backgroundColor))
         snackbar.show()
 
     }

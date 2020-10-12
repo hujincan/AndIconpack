@@ -47,7 +47,7 @@ class AboutAdapter(private val context: Context,
                 }
 
                 for ((index, value) in bean.buttons.withIndex()){
-                    p0.buttons.addButton(value, bean.links[index], context)
+                    p0.buttons.addButton(value, bean.links[index])
                 }
             }
         }else{

@@ -38,7 +38,7 @@ class UpdateFragment: DialogFragment() {
             dismiss()
         }
 
-        appVersion.text = "${context!!.resources.getString(R.string.official)} ${Utils.getAppVersionName(context!!)}"
+        appVersion.text = "${requireContext().resources.getString(R.string.official)} ${Utils.getAppVersionName(requireContext())}"
     }
 
     override fun onStart() {
@@ -46,7 +46,7 @@ class UpdateFragment: DialogFragment() {
         val window = dialog!!.window
         val windowParams = window!!.attributes
         val displayMetrics = DisplayMetrics()
-        activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics) //为获取屏幕宽高
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics) //为获取屏幕宽高
         windowParams.width = kotlin.math.min(
             DisplayUtil.dip2px(context, 390f),
             (displayMetrics.widthPixels * 0.9).toInt()

@@ -26,7 +26,7 @@ class HomeIconsAdapter(private val context: Context,
         val icon = context.resources.getIdentifier(bean.icon,"drawable",context.packageName)
         Glide.with(p0.icon).load(icon).into(p0.icon)
         p0.icon.setOnClickListener {
-            clickListener.onClick(icon ,bean.icon)
+            clickListener.onClick(icon ,bean.iconName)
         }
     }
 

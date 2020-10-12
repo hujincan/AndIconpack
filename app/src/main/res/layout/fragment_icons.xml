@@ -43,7 +43,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="14dp"
-                    android:tint="@color/black_text"/>
+                    app:tint="@color/black_text" />
 
                 <EditText
                     android:id="@+id/searchInput"
@@ -72,7 +72,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/black_text"/>
+                    app:tint="@color/black_text" />
 
             </RelativeLayout>
 

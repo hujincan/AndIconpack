@@ -28,7 +28,7 @@ import org.andcreator.iconpack.bean.PagerBarBean
 import org.andcreator.iconpack.util.*
 import org.andcreator.iconpack.view.NavigationPagerBar
 import java.io.*
-import java.util.ArrayList
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private var isDark = false
 
     private val mHandler = @SuppressLint("HandlerLeak")
-    object : Handler(){
+    object : Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when(msg.what){
@@ -281,7 +281,7 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     0 -> hide(pagerPointBar)
                     1 -> show(pagerPointBar)
-                    2 -> SnackbarUtil().SnackbarUtil(this@MainActivity, pagerPointBar ,resources.getString(R.string.no_choose_app))
+                    2 -> SnackbarUtil.snackbarUtil(this@MainActivity, pagerPointBar ,resources.getString(R.string.no_choose_app))
                 }
             }
         })
@@ -308,7 +308,6 @@ class MainActivity : AppCompatActivity() {
      * one of the sections/tabs/pages.
      */
     inner class SectionsPagerAdapter (fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
 
         private val mFragmentList = ArrayList<Fragment>()
         private val mFragmentTitleList = ArrayList<String>()

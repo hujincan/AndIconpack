@@ -69,4 +69,10 @@
     <item drawable="qq" name="QQ" />
     <item drawable="spotify" name="Spotify" />
     <item drawable="twitter" name="Twitter" />
+    <item drawable="bilibili" name="哔哩哔哩" />
+    <item drawable="fly_pig" name="飞猪旅行" />
+    <item drawable="amap" name="高德地图" />
+    <item drawable="wear_os" name="Wear OS" />
+
+    <!-- 修改完成后请复制到asset目录 -->
 </resources>

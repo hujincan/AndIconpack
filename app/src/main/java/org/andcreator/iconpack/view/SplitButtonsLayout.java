@@ -37,11 +37,6 @@ public class SplitButtonsLayout extends LinearLayout {
 
     private void init(Context context) {
         setOrientation(HORIZONTAL);
-        if (isInEditMode()) {
-            mButtonCount = 2;
-            addButton(R.drawable.ic_dribbble, "https://bubbble.org/", context);
-            addButton(R.drawable.ic_github, "https://github.com/hujincan", context);
-        }
     }
 
     /**
@@ -52,7 +47,7 @@ public class SplitButtonsLayout extends LinearLayout {
         setWeightSum(buttonCount);
     }
 
-    public void addButton(int iconId, String link, Context context) {
+    public void addButton(int iconId, String link) {
         if (getChildCount() == mButtonCount)
             throw new IllegalStateException(mButtonCount + " buttons have already been added.");
         final ImageView newButton = (ImageView) LayoutInflater.from(getContext())

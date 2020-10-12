@@ -20,11 +20,16 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_home.title
+import kotlinx.android.synthetic.main.fragment_icons.*
+import kotlinx.android.synthetic.main.item_designer.*
 import kotlinx.android.synthetic.main.rate_layout.*
 import org.andcreator.iconpack.activity.ImageDialog
+import org.andcreator.iconpack.bean.IconsBean
 import org.andcreator.iconpack.util.*
 
 
@@ -49,7 +54,7 @@ class HomeFragment : BaseFragment() {
     private val permissionCode = 1
 
     private fun startIconPreview(icon: Int, name: String){
-        val intent = Intent(context!!, ImageDialog::class.java)
+        val intent = Intent(requireContext(), ImageDialog::class.java)
         intent.putExtra("icon",icon)
         intent.putExtra("name",name)
         startActivity(intent)
@@ -65,7 +70,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.setPadding(0, Utils.getStatusBarHeight(context!!), 0, 0)
+        view.setPadding(0, Utils.getStatusBarHeight(requireContext()), 0, 0)
         getPermission()
         initView()
     }
@@ -85,65 +90,87 @@ class HomeFragment : BaseFragment() {
             callbacks.callback(2)
         }
 
-        rate.setOnClickListener {
-            openAppStore(packageName = context!!.packageName)
+        // 得到所有drawable文件里的图标
+        if (isDestroyed){
+            AppAdaptationHelper.setContext(requireContext()).getRandomIcon {
+                loadAndAnimIcon(it[0], icon1)
+                loadAndAnimIcon(it[1], icon2)
+                loadAndAnimIcon(it[2], icon3)
+                loadAndAnimIcon(it[3], icon4)
+            }.getUpdateIcon {
+
+                if (it.size > 0){
+                    val newIcon = it
+                    whatsNewAdaption.visibility = View.VISIBLE
+                    updateWhatIconsLayout.visibility = View.VISIBLE
+                    newNumber.text = newIcon.size.toString()
+
+                    for ((index, value) in newIcon.withIndex()){
+                        if (index == 4){
+                            loadAndAnimIcon(R.drawable.ic_more, updateWhatIcons5)
+                            updateWhatIcons5.setOnClickListener {
+                                IconsFragmentDialog.show(this@HomeFragment.childFragmentManager, "UpdateIconDialog","更新了哪些图标" , newIcon)
+                            }
+                            break
+                        }
+                        loadAndAnimIcon(requireContext().resources.getIdentifier(value.icon,"drawable", requireContext().packageName), updateWhatIcons[index])
+                        updateWhatIcons[index].setOnClickListener {
+                            startIconPreview(requireContext().resources.getIdentifier(value.icon,"drawable", requireContext().packageName), value.iconName)
+                        }
+                    }
+                }
+
+            }.getUpdateAdaptionIcon {
+
+                if (it.size > 0) {
+
+                    val newAdaption = it
+
+                    whatsAdaption.visibility = View.VISIBLE
+                    adaptWhatIconsLayout.visibility = View.VISIBLE
+
+                    for ((index, value) in newAdaption.withIndex()){
+                        if (index == 4){
+                            loadAndAnimIcon(R.drawable.ic_more, adaptWhatIcons5)
+                            adaptWhatIcons5.setOnClickListener {
+                                IconsFragmentDialog.show(this@HomeFragment.childFragmentManager, "UpdateIconDialog","新适配设备上哪些图标" , newAdaption)
+                            }
+                            break
+                        }
+                        loadAndAnimIcon(requireContext().resources.getIdentifier(value.icon,"drawable",requireContext().packageName), adaptWhatIcons[index])
+                        adaptWhatIcons[index].setOnClickListener {
+                            startIconPreview(requireContext().resources.getIdentifier(value.icon,"drawable",requireContext().packageName), value.iconName)
+                        }
+                    }
+                    whatsAdaption.text = "对设备新适配${newAdaption.size}应用"
+
+                }
+            }.getIconCount {
+                iconNumber.text = it.toString()
+            }
         }
 
-        AppAdaptationHelper.setContext(context!!).getRandomIcon {
-            loadAndAnimIcon(it[0], icon1)
-            loadAndAnimIcon(it[1], icon2)
-            loadAndAnimIcon(it[2], icon3)
-            loadAndAnimIcon(it[3], icon4)
-        }.getUpdateIcon {
+        val links = resources.getStringArray(R.array.links)
+        if (links.isNotEmpty()){
+            for (value in links) {
+                val values = value.split("$$")
+                val view = LayoutInflater.from(context).inflate(R.layout.rate_layout, linksLayout, false)
+                linksLayout.addView(view)
 
-            if (it.size > 0){
-                val newIcon = it
-                whatsNewAdaption.visibility = View.VISIBLE
-                updateWhatIconsLayout.visibility = View.VISIBLE
-                newNumber.text = newIcon.size.toString()
+                Glide.with(this).load(resources.getIdentifier(values[0],"drawable", this.requireContext().packageName)).into(view.findViewById<ImageView>(R.id.logo))
+                view.findViewById<TextView>(R.id.idTitle).text = values[1]
+                view.findViewById<TextView>(R.id.idSubTitle).text = values[2]
 
-                for ((index, value) in newIcon.withIndex()){
-                    if (index == 4){
-                        loadAndAnimIcon(R.drawable.ic_more, updateWhatIcons5)
-                        updateWhatIcons5.setOnClickListener {
-                            IconsFragmentDialog.show(this@HomeFragment.childFragmentManager, "UpdateIconDialog","更新了哪些图标" , newIcon)
-                        }
-                        break
+                if (values[3] == "rate") {
+                    view.setOnClickListener {
+                        openAppStore(packageName = requireContext().packageName)
                     }
-                    loadAndAnimIcon(context!!.resources.getIdentifier(value.icon,"drawable", context!!.packageName), updateWhatIcons[index])
-                    updateWhatIcons[index].setOnClickListener {
-                        startIconPreview(context!!.resources.getIdentifier(value.icon,"drawable", context!!.packageName), value.icon)
+                } else {
+                    view.setOnClickListener {
+                        startHttp(values[3])
                     }
                 }
             }
-
-        }.getUpdateAdaptionIcon {
-
-            if (it.size > 0) {
-
-                val newAdaption = it
-
-                whatsAdaption.visibility = View.VISIBLE
-                adaptWhatIconsLayout.visibility = View.VISIBLE
-
-                for ((index, value) in newAdaption.withIndex()){
-                    if (index == 4){
-                        loadAndAnimIcon(R.drawable.ic_more, adaptWhatIcons5)
-                        adaptWhatIcons5.setOnClickListener {
-                            IconsFragmentDialog.show(this@HomeFragment.childFragmentManager, "UpdateIconDialog","新适配设备上哪些图标" , newAdaption)
-                        }
-                        break
-                    }
-                    loadAndAnimIcon(context!!.resources.getIdentifier(value.icon,"drawable",context!!.packageName), adaptWhatIcons[index])
-                    adaptWhatIcons[index].setOnClickListener {
-                        startIconPreview(context!!.resources.getIdentifier(value.icon,"drawable",context!!.packageName), value.icon)
-                    }
-                }
-                whatsAdaption.text = "对设备新适配${newAdaption.size}应用"
-
-            }
-        }.getIconCount {
-            iconNumber.text = it.toString()
         }
     }
 
@@ -179,7 +206,7 @@ class HomeFragment : BaseFragment() {
             val uri = Uri.parse("market://details?id=$packageName")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context!!.startActivity(intent)
+            requireContext().startActivity(intent)
         } catch (e: Exception) {
             Toast.makeText(context, resources.getString(R.string.no_store), Toast.LENGTH_SHORT).show()
             e.printStackTrace()
@@ -199,14 +226,14 @@ class HomeFragment : BaseFragment() {
 
         //获取未授权的权限
         for (permiss:String in permission){
-            if (ContextCompat.checkSelfPermission(context!!, permiss) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permiss) != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(permiss)
             }
         }
         if (permissionList.isNotEmpty()){
             //请求权限方法
             val permissions = permissionList.toTypedArray()
-            ActivityCompat.requestPermissions(activity!!, permissions, permissionCode)
+            ActivityCompat.requestPermissions(requireActivity(), permissions, permissionCode)
         }else{
             checkWallpaper(true)
         }
@@ -236,7 +263,7 @@ class HomeFragment : BaseFragment() {
             UnboundedImageViewHelper.with(headImg).addClickListener(object : UnboundedImageViewHelper.ClickListener {
                 override fun onClick(view: View, count: Int) {
                     if (count < 2) {
-                        AppAdaptationHelper.setContext(context!!).getRandomIcon {
+                        AppAdaptationHelper.setContext(requireActivity()).getRandomIcon {
                             loadAndAnimIcon(it[0], icon1)
                             loadAndAnimIcon(it[1], icon2)
                             loadAndAnimIcon(it[2], icon3)
@@ -250,7 +277,7 @@ class HomeFragment : BaseFragment() {
             UnboundedImageViewHelper.with(headImg).addClickListener(object : UnboundedImageViewHelper.ClickListener {
                 override fun onClick(view: View, count: Int) {
                     if (count < 2) {
-                        AppAdaptationHelper.setContext(context!!).getRandomIcon {
+                        AppAdaptationHelper.setContext(requireActivity()).getRandomIcon {
                             loadAndAnimIcon(it[0], icon1)
                             loadAndAnimIcon(it[1], icon2)
                             loadAndAnimIcon(it[2], icon3)
@@ -270,5 +297,12 @@ class HomeFragment : BaseFragment() {
 
     fun setCallbackListener(callbacks: Callbacks) {
         this.callbacks = callbacks
+    }
+
+    //打开链接
+    private fun startHttp(uri: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(uri)
+        requireContext().startActivity(intent)
     }
 }

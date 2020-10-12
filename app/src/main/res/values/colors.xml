@@ -7,6 +7,7 @@
     <color name="colorAccent">#F06292</color>
     <color name="colorAccentTap">#3300bfa5</color>
     <color name="backgroundColor">#ffffff</color>
+    <color name="backgroundWhite">#f2f2f2</color>
     <color name="dialogBackground">#ffffff</color>
     <color name="transparentNavigation">#f2ffffff</color>
     <color name="backgroundDark">#e5e5e5</color>
@@ -16,6 +17,7 @@
     <color name="phoneScreen">#ffffff</color>
     <color name="phoneButton">#eee</color>
     <color name="phoneNotch">#e2e2e2</color>
+    <color name="colorAccentBackground">#F06292</color>
 
     <!-- 字体颜色 -->
     <color name="black_text">#222222</color>

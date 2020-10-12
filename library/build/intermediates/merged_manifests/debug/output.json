@@ -1,1 +1,27 @@
-[{"outputType":{"type":"MERGED_MANIFESTS"},"apkData":{"type":"MAIN","splits":[],"versionCode":5,"versionName":"0.3.2","enabled":true,"outputFile":"library-debug.aar","fullName":"debug","baseName":"debug","dirName":""},"path":"../../library_manifest/debug/AndroidManifest.xml","properties":{"packageId":"com.pluscubed.recyclerfastscroll","split":""}}]
+{
+  "version": 1,
+  "applicationId": "com.pluscubed.recyclerfastscroll",
+  "variantType": "LIBRARY",
+  "elements": [
+    {
+      "outputType": {
+        "type": "MERGED_MANIFESTS"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 5,
+        "versionName": "0.3.2",
+        "outputFile": "library-debug.aar",
+        "fullName": "debug",
+        "baseName": "debug",
+        "dirName": ""
+      },
+      "path": "../../library_manifest/debug/AndroidManifest.xml",
+      "properties": {
+        "packageId": "com.pluscubed.recyclerfastscroll",
+        "split": ""
+      }
+    }
+  ]
+}

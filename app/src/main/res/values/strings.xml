@@ -1,34 +1,55 @@
 <resources>
 
+    <!-- App 名称 -->
     <string name="app_name">And 图标包模板</string>
-    <string name="action_settings">设置</string>
+    <!-- 首页标题信息 -->
+    <string name="home_title">And 图标包模板</string>
 
-    <string name="extraapp">com.momocode.shortcuts</string>
+    <!-- APP主页底部的外链列表，可添加<item/>标签来动态修改，示例： -->
+    <!-- [放在项目/main/res/drawable目录里的图标名称]$$[标题]$$[描述]$$[链接] -->
+    <!-- 格式有误可能导致闪退 如需跳转到应用商店，请将链接替换成rate -->
+    <string-array name="links">
 
-    <string name="home_title">Welcome to And Marshmallow</string>
-    <string name="home_subtitle">这里是 Marshmallow, Material Design</string>
+        <item>ic_launcher_round$$为图标包评分吧$$如果喜欢这个图标包,请给个 ★★★★★$$rate</item>
+        <item>author_and$$开发者的个人网站$$q(≧▽≦q)q(≧▽≦q)$$https://bubbble.org</item>
 
-    <!-- 这里可以改为捐赠信息 -->
-    <!-- home_link_string: 请求捐赠的一句话 -->
-    <!-- home_link：捐赠链接 -->
-    <string name="home_link_string">访问开源地址</string>
-    <string name="home_link">https://github.com/hujincan/AndIconpack/</string>
+    </string-array>
 
-    <!-- 新增图标数量 -->
-    <string name="new_icons">16</string>
+    <!-- 作者页的个人外链列表，可添加<item/>标签来动态修改，示例： -->
+    <!-- [放在 项目/app/main/res/drawable目录里的图标名称]$$[链接] -->
+    <!-- 格式有误可能导致闪退 -->
+    <string-array name="author_links">
 
-    <!-- 作者信息 -->
+        <item>ic_github$$https://github.com/hujincan</item>
+        <item>ic_dribbble$$https://dribbble.com/hawvuking</item>
+        <item>ic_coolapk$$http://www.coolapk.com/u/620606</item>
+
+    </string-array>
+
+    <!-- 图标包作者信息 -->
     <string name="designer_name">Andrew</string>
     <string name="designer_message">一名设计摄影爱好者，也是本图标包创作者，希望有更多人喜欢这个作品！</string>
     <string name="mail">hujincan15369@Gmail.com</string>
 
+    <!-- 捐赠信息，如需隐藏，请将内容改为 false -->
     <!-- 手动解析二维码获得地址中的参数,一定记得先开通商家收款码，例如 https://qr.alipay.com/tsx083367dghotyahi8lq2e 最后那段 -->
-    <string name="alipay_code" translatable="false">tsx083367dghotyahi8lq2e</string>
+    <string name="alipay_code" translatable="false">false</string>
+<!--    <string name="alipay_code" translatable="false">tsx083367dghotyahi8lq2e</string>-->
 
-    <!-- 更新了啥？ -->
+    <!-- 更新了啥？或者关于信息 -->
     <string name="update_content" translatable="false">• 优化APP启动速度\n\n• 更新了很多自动化的功能\n\n• 开发者QQ: 2530767709</string>
 
-    <!-- 更多信息前往main/java/packageName/AboutFragment.java 修改 -->
+    <!-- 如果不想展示个人主页的banner图请将内容改为：false，替换图片请到drawable目录替换掉图片文件 -->
+    <string name="banner_background">false</string>
+<!--    <string name="banner_background">banner_background</string>-->
+
+    <!-- 修改包名请到 项目/app/build.gradle  -->
+    <!-- 如果想修改最大反馈app数量 请找到/app/main/java/org/andcreator/iconpack/Constans.kt中的 MAX_REQUEST_COUNT  -->
+
+    <!-- ..................................以下信息不要修改.................................. -->
+    <string name="action_settings">设置</string>
+
+    <string name="extraapp">com.momocode.shortcuts</string>
 
     <string name="no_store">没有可用的应用商店</string>
 

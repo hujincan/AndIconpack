@@ -4,6 +4,7 @@ package org.andcreator.iconpack.util
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.util.Log
 import org.andcreator.iconpack.R
@@ -22,7 +23,7 @@ import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 /**
- * @author  yd
+ * @author andrew
  * @date  2020/4/5 13:45
  */
 object AppAdaptationHelper {
@@ -112,8 +113,8 @@ object AppAdaptationHelper {
             }
         } else {
             Log.e("newAdaption", "loadAppFilter赋值了")
-            this.loadAppFilter = loadAppFilter
         }
+        this.loadAppFilter = loadAppFilter
         return this
     }
 
@@ -123,8 +124,8 @@ object AppAdaptationHelper {
                 loadAppFilterError.invoke(err.toString())
             }
         } else {
-            this.loadAppFilterError = loadAppFilterError
         }
+        this.loadAppFilterError = loadAppFilterError
         return this
     }
 
@@ -139,8 +140,8 @@ object AppAdaptationHelper {
             }
         } else {
             Log.e("newAdaption", "loadUpdateIcon赋值了")
-            this.loadUpdateIcon = loadUpdateIcon
         }
+        this.loadUpdateIcon = loadUpdateIcon
         return this
     }
 
@@ -153,8 +154,8 @@ object AppAdaptationHelper {
             }
         } else {
             Log.e("newAdaption", "loadUpdateAdaptionIcon赋值了")
-            this.loadUpdateAdaptionIcon = loadUpdateAdaptionIcon
         }
+        this.loadUpdateAdaptionIcon = loadUpdateAdaptionIcon
         return this
     }
 
@@ -182,8 +183,8 @@ object AppAdaptationHelper {
                 loadRandomIcon.invoke(randomIcon)
             }
         } else {
-            this.loadRandomIcon = loadRandomIcon
         }
+        this.loadRandomIcon = loadRandomIcon
         return this
     }
 
@@ -194,8 +195,8 @@ object AppAdaptationHelper {
             }
         } else {
             Log.e("newAdaption", "loadIconCount赋值了")
-            this.loadIconCount = loadIconCount
         }
+        this.loadIconCount = loadIconCount
         return this
     }
 
@@ -205,9 +206,8 @@ object AppAdaptationHelper {
                 Log.e("IconsFragment", "准备回调")
                 loadAdaptationIcon.invoke(iconsList)
             }
-        } else {
-            this.loadAdaptationIcon = loadAdaptationIcon
         }
+        this.loadAdaptationIcon = loadAdaptationIcon
         return this
     }
 
@@ -217,8 +217,8 @@ object AppAdaptationHelper {
                 loadAppCount.invoke(appCount)
             }
         } else {
-            this.loadAppCount = loadAppCount
         }
+        this.loadAppCount = loadAppCount
         return this
     }
 
@@ -226,10 +226,12 @@ object AppAdaptationHelper {
         if (appsList.isNotEmpty()) {
             onUI {
                 loadResolveInfo.invoke(appsList)
+                logger("不空")
             }
         } else {
-            this.loadResolveInfo = loadResolveInfo
+            logger("空")
         }
+        this.loadResolveInfo = loadResolveInfo
         return this
     }
 
@@ -240,8 +242,8 @@ object AppAdaptationHelper {
             }
         } else {
             Log.e("newAdaption", "loadIconCount赋值了")
-            this.loadAdaptionCount = loadAdaptionCount
         }
+        this.loadAdaptionCount = loadAdaptionCount
         return this
     }
 
@@ -251,8 +253,8 @@ object AppAdaptationHelper {
                 loadAdaptionCountForRequest.invoke(adaptions)
             }
         } else {
-            this.loadAdaptionCountForRequest = loadAdaptionCountForRequest
         }
+        this.loadAdaptionCountForRequest = loadAdaptionCountForRequest
         return this
     }
 
@@ -262,7 +264,6 @@ object AppAdaptationHelper {
             if (icons.size == 0) {
                 //加载所有图标（随机四个图标）
                 loadIcons()
-                parser()
                 parserDrawable()
             }
         }
@@ -371,7 +372,7 @@ object AppAdaptationHelper {
                             if (xml.name == "item"){
                                 val pkgActivity = xml.getAttributeValue(0)
                                 if (pkgActivity.indexOf("{")+1 < pkgActivity.indexOf("/") && pkgActivity.indexOf("/")+1 < pkgActivity.indexOf("}")){
-                                    adaptationsOld.add(AdaptionBean(pkgActivity.substring(pkgActivity.indexOf("{")+1,pkgActivity.indexOf("/")), pkgActivity.substring(pkgActivity.indexOf("/")+1,pkgActivity.indexOf("}")),xml.getAttributeValue(0)))
+                                    adaptationsOld.add(AdaptionBean("", pkgActivity.substring(pkgActivity.indexOf("{")+1,pkgActivity.indexOf("/")), pkgActivity.substring(pkgActivity.indexOf("/")+1,pkgActivity.indexOf("}")),xml.getAttributeValue(0)))
                                 }
                             }
                         }
@@ -409,10 +410,10 @@ object AppAdaptationHelper {
                                     icons.add(drawableId)
 
                                     if (xml.attributeCount == 1){
-                                        iconsList.add(IconsBean(category, drawableId, drawableString))
+                                        iconsList.add(IconsBean(category, drawableId, drawableString, drawableString))
                                     }else{
                                         val drawableName = xml.getAttributeValue(1)
-                                        iconsList.add(IconsBean(category, drawableId, drawableName))
+                                        iconsList.add(IconsBean(category, drawableId, drawableName, drawableString))
                                     }
                                 }
                             }
@@ -453,6 +454,8 @@ object AppAdaptationHelper {
             onUI {
                 loadRandomIcon?.invoke(randomIcon)
             }
+
+            parser()
         }
     }
 
@@ -466,6 +469,7 @@ object AppAdaptationHelper {
             allAdaptions.clear()
             val xml = context!!.resources.getXml(R.xml.appfilter)
             var type = xml.eventType
+            var isFind = false
             try {
                 while (type != XmlPullParser.END_DOCUMENT){
                     when(type){
@@ -474,7 +478,18 @@ object AppAdaptationHelper {
                                 val pkgActivity = xml.getAttributeValue(0)
                                 val drawable = xml.getAttributeValue(1)
                                 if (pkgActivity.indexOf("{") > 0 && pkgActivity.indexOf("{")+1 < pkgActivity.indexOf("/") && pkgActivity.indexOf("/")+1 < pkgActivity.indexOf("}")){
-                                    allAdaptions.add(AdaptionBean(pkgActivity.substring(pkgActivity.indexOf("{")+1,pkgActivity.indexOf("/")), pkgActivity.substring(pkgActivity.indexOf("/")+1,pkgActivity.indexOf("}")),drawable))
+                                    isFind = false
+                                    for (drawableInfo in iconsList) {
+                                        if (drawableInfo.drawableName == drawable) {
+                                            allAdaptions.add(AdaptionBean(drawableInfo.name, pkgActivity.substring(pkgActivity.indexOf("{")+1,pkgActivity.indexOf("/")), pkgActivity.substring(pkgActivity.indexOf("/")+1,pkgActivity.indexOf("}")), drawable))
+                                            isFind = true
+                                            break
+                                        }
+                                    }
+
+                                    if (!isFind) {
+                                        allAdaptions.add(AdaptionBean(drawable, pkgActivity.substring(pkgActivity.indexOf("{")+1,pkgActivity.indexOf("/")), pkgActivity.substring(pkgActivity.indexOf("/")+1,pkgActivity.indexOf("}")), drawable))
+                                    }
                                     sb.append("<item component=\"$pkgActivity\" drawable=\"${drawable}\" />\r\n")
                                 }else{
                                     err.append("在${pkgActivity} 附近处有一处错误\r\n")
@@ -519,10 +534,15 @@ object AppAdaptationHelper {
                 while (type != XmlPullParser.END_DOCUMENT) {
                     when (type) {
                         XmlPullParser.START_TAG -> {
-                            if (xml.name == "item") {
-
+                            if (xml.name == "item"){
                                 val drawableString = xml.getAttributeValue(0)
-                                allAdaptionsIcon.add(AdaptionBean("", "", drawableString))
+
+                                if (xml.attributeCount == 1){
+                                    allAdaptionsIcon.add(AdaptionBean(drawableString, "", "", drawableString))
+                                }else{
+                                    val drawableName = xml.getAttributeValue(1)
+                                    allAdaptionsIcon.add(AdaptionBean(drawableName, "", "", drawableString))
+                                }
                                 adaptations++
                             }
                         }
@@ -552,13 +572,14 @@ object AppAdaptationHelper {
             val pm = context!!.packageManager
             val mainIntent = Intent(Intent.ACTION_MAIN,null)
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val resolveInfos = pm.queryIntentActivities(mainIntent,0)
+            val resolveInfos = pm.queryIntentActivities(mainIntent, 0)
             // 调用系统排序 ， 根据name排序
             // 该排序很重要，否则只能显示系统应用，而不能列出第三方应用程序
             Collections.sort(resolveInfos, ResolveInfo.DisplayNameComparator(pm))
             for (reInfo: ResolveInfo in resolveInfos){
                 var isHave = false
                 val pkgName = reInfo.activityInfo.packageName // 获得应用程序的包名
+                logger("get $pkgName")
                 for (adaptionBean: AdaptionBean in allAdaptions){
                     if (adaptionBean.pagName == pkgName && reInfo.activityInfo.name == adaptionBean.activityName){
                         adaptions++
@@ -581,6 +602,7 @@ object AppAdaptationHelper {
                 )
                 // 创建一个AppInfo对象，并赋值
                 appsList.add(RequestsBean(icon,appLabel,pkgName,activityName)) // 添加至列表中
+                logger("add $appLabel")
             }
             onUI {
                 loadResolveInfo?.invoke(appsList)

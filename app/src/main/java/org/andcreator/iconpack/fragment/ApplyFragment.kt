@@ -44,7 +44,7 @@ class ApplyFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.setPadding(0, Utils.getStatusBarHeight(context!!), 0, 0)
+        view.setPadding(0, Utils.getStatusBarHeight(requireContext()), 0, 0)
         initView()
     }
 
@@ -52,7 +52,7 @@ class ApplyFragment : BaseFragment() {
         recyclerLaunchers.layoutManager = GridLayoutManager(context, 3)
         recyclerLaunchers.itemAnimator = DefaultItemAnimator()
 
-        adapter = LauncherAdapter(context!!,launchers,object: LauncherHolder.OnLauncherClickListener{
+        adapter = LauncherAdapter(requireContext(),launchers,object: LauncherHolder.OnLauncherClickListener{
             override fun onLauncherClick(item: LauncherItem) {
                 when(item.name){
                     "Google Now" ->{
@@ -155,7 +155,7 @@ class ApplyFragment : BaseFragment() {
             intentString = Constans.MARKET_URL + launcher.packageName
         }
 
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(launcher.name)
             .setMessage(dialogContent)
             .setPositiveButton(

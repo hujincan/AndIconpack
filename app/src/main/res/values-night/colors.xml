@@ -15,6 +15,7 @@
     <color name="phoneScreen">#36373a</color>
     <color name="phoneButton">#37383c</color>
     <color name="phoneNotch">#202124</color>
+    <color name="colorAccentBackground">#202124</color>
 
     <!-- 字体颜色 -->
     <color name="black_text">#e8eaed</color>

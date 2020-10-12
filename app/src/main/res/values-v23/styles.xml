@@ -13,6 +13,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:fontFamily">@font/google_sans_medium</item>
     </style>
 
 </resources>

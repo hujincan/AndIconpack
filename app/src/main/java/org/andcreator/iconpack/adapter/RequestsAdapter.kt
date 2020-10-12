@@ -69,7 +69,7 @@ class RequestsAdapter(private val context: Context,
                 }
             }
 
-            if (count <= MAX_REQUEST_COUNT) {
+            if (count < MAX_REQUEST_COUNT) {
 
                 checkRead[p1] = !p0.chkSelected.isChecked
                 p0.chkSelected.isChecked = !p0.chkSelected.isChecked
@@ -80,10 +80,16 @@ class RequestsAdapter(private val context: Context,
                     selectListener.onSelected(++count)
                 }
             } else {
-                Toast.makeText(context, "最多被允许选择 $MAX_REQUEST_COUNT 个应用", Toast.LENGTH_SHORT).show()
+
+                if (checkRead[p1]) {
+                    checkRead[p1] = !p0.chkSelected.isChecked
+                    p0.chkSelected.isChecked = !p0.chkSelected.isChecked
+                    selectListener.onSelected(--count)
+                } else {
+                    Toast.makeText(context, "最多被允许选择 $MAX_REQUEST_COUNT 个应用", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
     }
 
     fun selectAll(){
@@ -100,7 +106,7 @@ class RequestsAdapter(private val context: Context,
                     }
                 }
                 isSelect = true
-                selectListener.onSelected(checkRead.size)
+                selectListener.onSelected(count)
                 notifyDataSetChanged()
             } else {
                 for (i in 0 until checkRead.size){
@@ -111,17 +117,14 @@ class RequestsAdapter(private val context: Context,
                 selectListener.onSelected(0)
                 notifyDataSetChanged()
             }
-        } else if (count == MAX_REQUEST_COUNT) {
+        } else if (count >= MAX_REQUEST_COUNT) {
             for (i in 0 until checkRead.size){
-
                 checkRead[i] = false
             }
             count = 0
             isSelect = false
             selectListener.onSelected(0)
             notifyDataSetChanged()
-        } else {
-            Toast.makeText(context, "最多被允许选择 $MAX_REQUEST_COUNT 个应用", Toast.LENGTH_SHORT).show()
         }
     }
 

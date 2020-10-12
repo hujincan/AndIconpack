@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +63,7 @@ class RequestFragment : BaseFragment() {
     /**
      * 列表适配器
      */
-    private lateinit var adapter: RequestsAdapter
+    private var adapter: RequestsAdapter? = null
 
     /**
      * 反馈文本信息
@@ -78,10 +79,10 @@ class RequestFragment : BaseFragment() {
     private lateinit var thread: Thread
 
     private var mHandler= @SuppressLint("HandlerLeak")
-    object: Handler(){
-        override fun handleMessage(msg: Message?) {
+    object: Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            when(msg!!.what){
+            when(msg.what){
                 1 ->{
                     zipLoad.progress = msg.arg1
                 }
@@ -107,14 +108,14 @@ class RequestFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.setPadding(0, Utils.getStatusBarHeight(context!!), 0, 0)
+        view.setPadding(0, Utils.getStatusBarHeight(requireContext()), 0, 0)
         initView()
     }
 
     private fun initView(){
-        recyclerApps.layoutManager = LinearLayoutManager(context!!)
+        recyclerApps.layoutManager = LinearLayoutManager(requireContext())
 
-        AppAdaptationHelper.setContext(context!!).getResolveInfo {
+        AppAdaptationHelper.setContext(requireActivity()).getResolveInfo {
             appsList = it
             if (isDestroyed){
                 if (loading.visibility == View.VISIBLE){
@@ -126,11 +127,11 @@ class RequestFragment : BaseFragment() {
             for (value in appsList) {
                 checked.add(false)
             }
-            adapter = RequestsAdapter(context!!, appsList, checked)
+            adapter = RequestsAdapter(requireContext(), appsList, checked)
             recyclerApps.adapter = adapter
             recyclerApps.addOnScrollListener(object : HideScrollListener() {})
 
-            adapter.setOnSelectListener(object : RequestsAdapter.OnSelectListener {
+            adapter?.setOnSelectListener(object : RequestsAdapter.OnSelectListener {
                 override fun onSelected(size: Int) {
                     sendRequest.text = "已选择 $size"
                 }
@@ -142,7 +143,7 @@ class RequestFragment : BaseFragment() {
         }
 
         selectAll.setOnClickListener {
-            adapter.selectAll()
+            adapter?.selectAll()
         }
 
         sendRequest.setOnClickListener {
@@ -192,13 +193,13 @@ class RequestFragment : BaseFragment() {
                         }
 
                         myFiles.add(file)
-                        for ((index,value) in adapter.getSelect().withIndex()){
+                        for ((index,value) in adapter!!.getSelect().withIndex()){
                             if (value){
                                 saveIcon(appsList[index].icon!!, appsList[index].name?.toLowerCase()?.replace(" ", "_")!!)
 
                                 val msg = Message()
                                 msg.what = 1
-                                msg.arg1 = (index * 50) / adapter.getSelect().size
+                                msg.arg1 = (index * 50) / adapter!!.getSelect().size
                                 mHandler.sendMessage(msg)
                             }
                         }
@@ -264,7 +265,7 @@ class RequestFragment : BaseFragment() {
         intent.putExtra(Intent.EXTRA_EMAIL, email)
         intent.putExtra(Intent.EXTRA_SUBJECT, "致开发者") // 主题
         intent.putExtra(Intent.EXTRA_TEXT, "") // 正文
-        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, "${activity!!.packageName}.provider", path))
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(requireContext(), "${requireActivity().packageName}.provider", path))
         startActivity(Intent.createChooser(intent, "请选择邮件类应用"))
     }
 
@@ -301,22 +302,25 @@ class RequestFragment : BaseFragment() {
         message.append("Android version: Android ${android.os.Build.VERSION.RELEASE}\r\n")
         message.append("Device: ${android.os.Build.MODEL}\r\n")
         message.append("Manufacturer: ${android.os.Build.BRAND}\r\n")
-        message.append("DPI: ${context!!.displayMetrics.densityDpi}dpi\r\n")
-        message.append("Resolution: ${context!!.displayMetrics.widthPixels}x${context!!.displayMetrics.heightPixels}\r\n")
+        message.append("DPI: ${requireContext().displayMetrics.densityDpi}dpi\r\n")
+        message.append("Resolution: ${requireContext().displayMetrics.widthPixels}x${requireContext().displayMetrics.heightPixels}\r\n")
         message.append("Device Language: ${Locale.getDefault().language}\r\n")
         message.append("\r\n")
         message.append("\r\n")
 
         var boolean = false
-        for ((index, value) in adapter.getSelect().withIndex()){
-            if (value){
-                boolean = true
-                message.append("<!-- ${appsList[index].name} -->\r\n")
-                message.append("<item component=\"ComponentInfo{${appsList[index].pagName}/${appsList[index].activityName}}\" drawable=\"${appsList[index].name?.toLowerCase()?.replace(" ", "_")}\" />")
-                message.append("\r\n")
-            }
-        }
+        if (adapter != null) {
 
+            for ((index, value) in adapter!!.getSelect().withIndex()){
+                if (value){
+                    boolean = true
+                    message.append("<!-- ${appsList[index].name} -->\r\n")
+                    message.append("<item component=\"ComponentInfo{${appsList[index].pagName}/${appsList[index].activityName}}\" drawable=\"${appsList[index].name?.toLowerCase()?.replace(" ", "_")}\" />")
+                    message.append("\r\n")
+                }
+            }
+
+        }
         if (!boolean){
             return ""
         }
@@ -324,7 +328,7 @@ class RequestFragment : BaseFragment() {
         message.append("\r\n")
         message.append("\r\n")
 
-        message.append("App Version: ${Utils.getAppVersionName(context!!)}")
+        message.append("App Version: ${Utils.getAppVersionName(requireContext())}")
 
         return message.toString()
     }
@@ -336,7 +340,7 @@ class RequestFragment : BaseFragment() {
 
         val bmp = getBitmapFromDrawable(icon)
 
-        val file = File(activity!!.externalCacheDir, "$fileName.png")
+        val file = File(requireActivity().externalCacheDir, "$fileName.png")
         val out = FileOutputStream(file)
         try {
             if (!file.exists()) {

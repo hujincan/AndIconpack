@@ -173,5 +173,5 @@
     <item component="ComponentInfo{com.google.android.wearable.app.cn/com.google.android.clockwork.companion.launcher.LauncherActivity}" drawable="wear_os" />
 
 
-    <!-- 修改完成后请复制到asset目录 -->
+    <!-- 修改完成后请复制到assets目录 -->
 </resources>

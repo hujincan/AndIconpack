@@ -46,8 +46,6 @@
     <item drawable="playconsole" name="Play console" />
     <item drawable="news" name="Google 新闻和天气" />
 
-    <category title="游戏" />
-
     <categor title="社交"/>
     <item drawable="ic_settings" name="设置" />
 
@@ -74,5 +72,5 @@
     <item drawable="amap" name="高德地图" />
     <item drawable="wear_os" name="Wear OS" />
 
-    <!-- 修改完成后请复制到asset目录 -->
+    <!-- 修改完成后请复制到assets目录 -->
 </resources>
